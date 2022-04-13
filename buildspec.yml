@@ -1,0 +1,29 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - echo install step...
+  pre_build:
+    commands:
+      - echo logging in to Docker Hub
+      - docker login -u "fayzan94" -p "fazan@786"
+   #  - echo logging in to AWS ECR...
+   #  - aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 059325630878.dkr.ecr.us-west-2.amazonaws.com
+  build:
+    commands:
+      - cd client
+      - docker build -t client-image .
+      - docker tag client-image fayzan94/client-image
+      - cd ..
+      - cd server
+      - docker build -t server-image .
+      - docker tag server-image fayzan94/server-image
+      
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push fayzan94/client-image:latest
+      - docker push fayzan94/server-image:latest 
+    # - echo push latest Docker images to ECR...
+    # - docker push 059325630878.dkr.ecr.us-west-2.amazonaws.com/aws-repo:latest
