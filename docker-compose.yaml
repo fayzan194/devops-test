@@ -2,9 +2,7 @@ version: '3.7'
 
 services:
   frontend:
-    build:
-      context: client/
-      target: release
+    image: fayzan94/client-image
     depends_on:
       - frontend-sidecar-env-gen
     ports:
@@ -34,9 +32,7 @@ services:
       --run-as=daemon
       --refresh-period=50
   api:
-    build:
-      context: server/
-      target: release
+    image: fayzan94/server-image
     depends_on:
       - db
     ports:
